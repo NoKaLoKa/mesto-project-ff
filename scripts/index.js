@@ -2,7 +2,6 @@
 const cardTemplate = document.querySelector('#card-template');
 let cards = [];
 
-
 // @todo: Функция создания карточки
 function addCard(name, link) {
   cards.push({name, link});
@@ -18,10 +17,6 @@ function deleteCard (name, link) {
     }
   })
 }
-deleteCard('oleg', 'https://images.unsplash.com/photo-1682685797507-d44d838b0ac7?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-
-// По нажатию кнопки должна активироваться функция deleteCard
-// к кнопке нужно обращатся по name и link
 
 // Вывод карточек на страницу
 initialCards.forEach((card) => addCard(`${card.name}`, `${card.link}`));
@@ -29,27 +24,22 @@ addCard('oleg', 'https://images.unsplash.com/photo-1682685797507-d44d838b0ac7?au
 
 cards.forEach((card) => {
   const cardElement = cardTemplate.content.cloneNode(true);
+  const deleteButton = cardElement.querySelector('.card__delete-button');
 
   cardElement.querySelector('.card__image').src = card.link;
   cardElement.querySelector('.card__title').textContent = card.name;
+  deleteButton.addEventListener('click', () => {
+    deleteCard(`${card.name}`, `${card.link}`)
+    console.log('card deleted')
+  })
 
   document.querySelector('.places__list').appendChild(cardElement);
 })
-
-// выводить массив кардс здесь, а добавлять елементы в него за счет функции аддкардс
 
 // функция addCard добавляет card в массив cards
 // функция deleteCard удаляет card из массива
 // а в самом конце выводится содержимое массива cards
 
-// Удаление карточки со страницы
-let deleteButtons = document.querySelectorAll('.card__delete-button');
-deleteButtons.forEach((button) => {
-  const link = closest('.card__image').src;
-  const name = closest('.card__title');
-
-  button.addEventListener('click', () => deleteCard(name, link))
-})
 
 // Реализация работы попапов
 //const closeButton = document.querySelectorAll('.popup__close');
