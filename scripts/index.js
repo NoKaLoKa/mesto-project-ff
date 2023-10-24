@@ -1,6 +1,5 @@
 // Темплейт карточки
 const cardTemplate = document.querySelector('#card-template');
-let cards = [];
 
 // Функция создания карточки
 function addCard(name, link) {
@@ -10,13 +9,8 @@ function addCard(name, link) {
   cardElement.querySelector('.card__image').src = link;
   cardElement.querySelector('.card__title').textContent = name;
 
-  deleteButton.addEventListener('click', () => {
-    cards.pop();
-    document.querySelector('.card').remove();
-  })
-
   document.querySelector('.places__list').appendChild(cardElement);
-  cards.push({name, link});
+  deleteButton.addEventListener('click', () => deleteButton.parentElement.remove())
 }
 
 // Вывод карточек на страницу
