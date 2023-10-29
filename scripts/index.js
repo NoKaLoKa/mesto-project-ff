@@ -1,30 +1,32 @@
 // Темплейт карточки
-const cardTemplate = document.querySelector("#card-template");
-const cardsList = document.querySelector(".places__list");
+const cardTemplate = document.querySelector('#card-template');
+const cardsList = document.querySelector('.places__list');
 
 // Функция создания карточки
-function createCard(cardIndex, deleteCard) {
+function createCard(card, deleteCard) {
   const cardElement = cardTemplate.content.cloneNode(true);
-  const deleteButton = cardElement.querySelector(".card__delete-button");
+  const deleteButton = cardElement.querySelector('.card__delete-button');
+  const cardImage = cardElement.querySelector('.card__image');
+  const cardTitle = cardElement.querySelector('.card__title');
   
-  deleteButton.addEventListener("click", () => deleteCard(deleteButton));
+  deleteButton.addEventListener('click', () => deleteCard(deleteButton));
 
-  cardElement.querySelector(".card__image").src = initialCards[cardIndex].link;
-  cardElement.querySelector(".card__image").alt = initialCards[cardIndex].name;
-  cardElement.querySelector(".card__title").textContent = initialCards[cardIndex].name;
+  cardImage.src = card.link;
+  cardImage.alt = card.name;
+  cardTitle.textContent = card.name;
 
   return cardElement;
 }
 
 // Функция добавления карточки
-function addCard(createCard) {
-  cardsList.append(createCard);
+function addCard(card) {
+  cardsList.append(card);
 }
 
 // Функция удаления карточки
 function deleteCard(deleteButton) {
-  deleteButton.closest(".card").remove();
+  deleteButton.closest('.card').remove();
 }
 
 // Вывод карточек на страницу
-initialCards.forEach((card) => addCard(createCard(initialCards.indexOf(card), deleteCard)));
+initialCards.forEach((card) => addCard(createCard(card, deleteCard)));
