@@ -1,3 +1,6 @@
+import initialCards from './cards.js';
+import './styles/index.css';
+
 // Темплейт карточки
 const cardTemplate = document.querySelector('#card-template');
 const cardsList = document.querySelector('.places__list');
