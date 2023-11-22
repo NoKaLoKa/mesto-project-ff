@@ -1,25 +1,28 @@
-import initialCards from './cards.js';
 import './styles/index.css';
+import createCard from './scripts/card.js'
+import initialCards from './scripts/cards.js';
+import { openModal, closeModal } from './scripts/modal.js'
 
 // Темплейт карточки
-const cardTemplate = document.querySelector('#card-template');
+export const cardTemplate = document.querySelector('#card-template');
 const cardsList = document.querySelector('.places__list');
 
-// Функция создания карточки
-function createCard(card, deleteCard) {
-  const cardElement = cardTemplate.content.cloneNode(true);
-  const deleteButton = cardElement.querySelector('.card__delete-button');
-  const cardImage = cardElement.querySelector('.card__image');
-  const cardTitle = cardElement.querySelector('.card__title');
-  
-  deleteButton.addEventListener('click', () => deleteCard(deleteButton));
+// Функционал карточки
+cardsList.addEventListener('click', function(evt) {
+  if (evt.target.classList.contains('card__delete-button')) {
+    deleteCard(evt.target);
+  } else if (evt.target.classList.contains('card__like-button')) {
+    evt.target.classList.toggle('card__like-button_is-active')
+  } else if (evt.target.classList.contains('card__image')) {
+    const card = evt.target.parentElement;
+    const cardImage = card.querySelector('.card__image');
+    const cardTitle = card.querySelector('.card__title');
 
-  cardImage.src = card.link;
-  cardImage.alt = card.name;
-  cardTitle.textContent = card.name;
-
-  return cardElement;
-}
+    document.querySelector('.popup__image').src = cardImage.src;
+    document.querySelector('.popup__caption').textContent = cardTitle.textContent;
+    document.querySelector('.popup_type_image').classList.add('popup_is-opened');
+  } 
+});
 
 // Функция добавления карточки
 function addCard(card) {
