@@ -1,7 +1,7 @@
 import './styles/index.css';
 import { createCard, deleteCard, likeCard } from './scripts/card.js';
 import initialCards from './scripts/cards.js';
-import { openModal, closeModal } from './scripts/modal.js';
+import { openModal, closeModal, closePopupByClick } from './scripts/modal.js';
 
 // Темплейт карточки
 export const cardTemplate = document.querySelector('#card-template');
@@ -19,6 +19,7 @@ function openImagePopup(image) {
   const cardTitle = card.querySelector('.card__title');
 
   document.querySelector('.popup__image').src = cardImage.src;
+  document.querySelector('.popup__image').alt = cardImage.alt;
   document.querySelector('.popup__caption').textContent = cardTitle.textContent;
   openModal(cardImagePopup);
 }
@@ -45,6 +46,9 @@ profileAddButton.addEventListener('click', () => openModal(profileAddPopup));
 
 // Image popup
 const cardImagePopup = document.querySelector('.popup_type_image')
+
+// Close popup
+document.addEventListener('click', closePopupByClick);
 
 // Popup forms
 const editProfileForm = document.forms['edit-profile'];
