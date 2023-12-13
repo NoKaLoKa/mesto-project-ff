@@ -1,7 +1,8 @@
 import './styles/index.css';
-import { createCard, deleteCard, likeCard } from './scripts/card.js';
 import initialCards from './scripts/cards.js';
+import { createCard, deleteCard, likeCard } from './scripts/card.js';
 import { openModal, closeModal, closePopupByClick } from './scripts/modal.js';
+import { enableValidation, clearValidation } from './scripts/validation.js';
 
 // Темплейт карточки
 export const cardTemplate = document.querySelector('#card-template');
@@ -35,6 +36,15 @@ profileEditButton.addEventListener('click', () => {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileJob.textContent;
 
+  clearValidation(editProfileForm, {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: '.button__inactive',
+    inputErrorClass: '.popup__input_type_error',
+    errorClass: '.popup__input-error_active'
+  });
+
   openModal(profileEditPopup);
 });
 
@@ -42,7 +52,18 @@ profileEditButton.addEventListener('click', () => {
 const profileAddButton = document.querySelector('.profile__add-button');
 const profileAddPopup = document.querySelector('.popup_type_new-card');
 
-profileAddButton.addEventListener('click', () => openModal(profileAddPopup));
+profileAddButton.addEventListener('click', () => {
+  clearValidation(newPlaceForm, {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: '.button__inactive',
+    inputErrorClass: '.popup__input_type_error',
+    errorClass: '.popup__input-error_active'
+  });
+
+  openModal(profileAddPopup)}
+  );
 
 // Image popup
 const cardImagePopup = document.querySelector('.popup_type_image')
@@ -65,6 +86,7 @@ editProfileForm.addEventListener('submit', function(evt) {
 
   profileTitle.textContent = name;
   profileJob.textContent = job;
+  
   closeModal(profileEditPopup);
 });
 
@@ -86,3 +108,12 @@ newPlaceForm.addEventListener('submit', function(evt) {
   newPlaceForm.reset();
   closeModal(profileAddPopup);
 });
+
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: '.button__inactive',
+  inputErrorClass: '.popup__input_type_error',
+  errorClass: '.popup__input-error_active'
+}); 

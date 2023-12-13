@@ -1,0 +1,13 @@
+.button__inactive {
+    color: #000;
+    background: #FFF;
+    border-radius: 2px;
+    border: 1px solid #000;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.button__inactive:hover {
+    background: #FFF;
+    cursor: default;
+}
