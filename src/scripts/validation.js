@@ -45,7 +45,14 @@ export function enableValidation() {
             evt.preventDefault();
         });
 
-        clearValidation(formElement, validationConfig)
+        clearValidation(formElement, {
+            formSelector: '.popup__form',
+            inputSelector: '.popup__input',
+            submitButtonSelector: '.popup__button',
+            inactiveButtonClass: '.button__inactive',
+            inputErrorClass: '.popup__input_type_error',
+            errorClass: '.popup__input-error_active'
+          })
     });
 };
 

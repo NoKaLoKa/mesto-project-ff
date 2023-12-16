@@ -3,18 +3,19 @@ import initialCards from './scripts/cards.js';
 import { createCard, deleteCard, likeCard } from './scripts/card.js';
 import { openModal, closeModal, closePopupByClick } from './scripts/modal.js';
 import { enableValidation, clearValidation } from './scripts/validation.js';
+import { postCard, getCards } from './scripts/api.js';
 
 // Темплейт карточки
 export const cardTemplate = document.querySelector('#card-template');
 const cardsList = document.querySelector('.places__list');
 
 // Функция добавления карточки
-function addCard(card) {
+export function addCard(card) {
   cardsList.append(card);
 }
 
 // Функция попапа с картинкой
-function openImagePopup(image) {
+export function openImagePopup(image) {
   const card = image.parentElement;
   const cardImage = card.querySelector('.card__image');
   const cardTitle = card.querySelector('.card__title');
@@ -24,9 +25,6 @@ function openImagePopup(image) {
   document.querySelector('.popup__caption').textContent = cardTitle.textContent;
   openModal(cardImagePopup);
 }
-
-// Вывод карточек на страницу
-initialCards.forEach((card) => addCard(createCard(card, deleteCard, likeCard, openImagePopup)));
 
 // Edit-profile popup
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -105,15 +103,11 @@ newPlaceForm.addEventListener('submit', function(evt) {
 
   cardsList.prepend(createCard(card, deleteCard, likeCard, openImagePopup));
 
+  postCard(card);
+
   newPlaceForm.reset();
   closeModal(profileAddPopup);
 });
 
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: '.button__inactive',
-  inputErrorClass: '.popup__input_type_error',
-  errorClass: '.popup__input-error_active'
-}); 
+enableValidation(); 
+getCards();
