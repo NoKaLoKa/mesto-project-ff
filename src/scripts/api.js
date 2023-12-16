@@ -1,5 +1,5 @@
-import  { addCard, openImagePopup } from '../index.js';
-import  { createCard, deleteCard, likeCard } from './card.js';
+import { addCard, openImagePopup } from '../index.js';
+import { createCard, deleteCard, likeCard } from './card.js';
 
 export const getCards = fetch('https://mesto.nomoreparties.co/v1/wff-cohort-2/cards', {
     headers: {
@@ -13,19 +13,19 @@ export const getCards = fetch('https://mesto.nomoreparties.co/v1/wff-cohort-2/ca
             const likeСounter = cardElement.querySelector('.card__like-сounter');
             const deleteButton = cardElement.querySelector('.card__delete-button');
 
-            if(card.owner['_id'] !== 'a5cd3f67283bc26d3ca91bb7') {
+            if (card.owner['_id'] !== 'a5cd3f67283bc26d3ca91bb7') {
                 deleteButton.remove();
             };
-            
+
             addCard(cardElement);
 
             likeСounter.textContent = card.likes.length;
         })
-    
+
     })
     .catch((err) => {
-        console.log(err); 
-        });
+        console.log(err);
+    });
 
 export const postCard = (card) => {
     fetch('https://mesto.nomoreparties.co/v1/wff-cohort-2/cards', {
@@ -56,7 +56,7 @@ export const putLike = (card) => {
         headers: {
             authorization: '44bd843a-83af-4683-8cc6-5f335d510854',
             'Content-Type': 'application/json'
-        }  
+        }
     });
 };
 
@@ -80,9 +80,9 @@ export const patchUserData = (name, about) => fetch('https://mesto.nomoreparties
         name: `${name}`,
         about: `${about}`
     })
-})
+});
 
-export const getUserData = (profileTitle, profileJob, profileAvatar) =>fetch('https://mesto.nomoreparties.co/v1/wff-cohort-2/users/me', {
+export const getUserData = (profileTitle, profileJob, profileAvatar) => fetch('https://mesto.nomoreparties.co/v1/wff-cohort-2/users/me', {
     headers: {
         authorization: '44bd843a-83af-4683-8cc6-5f335d510854'
     }
@@ -96,13 +96,13 @@ export const getUserData = (profileTitle, profileJob, profileAvatar) =>fetch('ht
 
 export const avatarUpdate = (link) => {
     fetch('https://mesto.nomoreparties.co/v1/wff-cohort-2/users/me/avatar', {
-    method: 'PATCH',
-    headers: {
-        authorization: '44bd843a-83af-4683-8cc6-5f335d510854',
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        avatar: `${link}`,
-    })
-});
+        method: 'PATCH',
+        headers: {
+            authorization: '44bd843a-83af-4683-8cc6-5f335d510854',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            avatar: `${link}`,
+        })
+    });
 };

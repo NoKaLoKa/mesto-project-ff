@@ -60,7 +60,8 @@ profileAddButton.addEventListener('click', () => {
     errorClass: '.popup__input-error_active'
   });
 
-  openModal(profileAddPopup)}
+  openModal(profileAddPopup)
+}
 );
 
 // Image popup
@@ -81,7 +82,8 @@ profileAvatarButton.addEventListener('click', () => {
     errorClass: '.popup__input-error_active'
   });
 
-  openModal(profileAvatarPopup)}
+  openModal(profileAvatarPopup)
+}
 );
 
 // Close popup
@@ -96,7 +98,7 @@ const jobInput = editProfileForm.querySelector('.popup__input_type_description')
 
 getUserData(profileTitle, profileJob, profileAvatar);
 
-editProfileForm.addEventListener('submit', function(evt) {
+editProfileForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
 
   const name = nameInput.value;
@@ -105,7 +107,7 @@ editProfileForm.addEventListener('submit', function(evt) {
   profileTitle.textContent = name;
   profileJob.textContent = job;
   patchUserData(name, job);
-  
+
   closeModal(profileEditPopup);
 });
 
@@ -113,7 +115,7 @@ const newPlaceForm = document.forms['new-place'];
 const cardNameInput = newPlaceForm.querySelector('.popup__input_type_card-name');
 const cardLinkInput = newPlaceForm.querySelector('.popup__input_type_url');
 
-newPlaceForm.addEventListener('submit', function(evt) {
+newPlaceForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
 
   const name = cardNameInput.value;
@@ -133,7 +135,7 @@ newPlaceForm.addEventListener('submit', function(evt) {
 const avatarForm = document.forms['avatar'];
 const avatarLinkInput = avatarForm.querySelector('.popup__input_type_url');
 
-avatarForm.addEventListener('submit', function(evt) {
+avatarForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
 
   const link = avatarLinkInput.value;

@@ -19,7 +19,7 @@ export function createCard(card, deleteCard, likeCard, openImagePopup) {
   likeButton.addEventListener('click', () => {
     likeCard(likeButton);
 
-    if(!card.likes.some((like) => like['_id'] === 'a5cd3f67283bc26d3ca91bb7')) {
+    if (!card.likes.some((like) => like['_id'] === 'a5cd3f67283bc26d3ca91bb7')) {
       putLike(card);
       likeСounter.textContent = card.likes.length + 1;
     } else {
