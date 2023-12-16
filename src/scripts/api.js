@@ -5,12 +5,12 @@ export const postCard = (card) => {
     fetch('https://nomoreparties.co/v1/wff-cohort-2/cards', {
         method: 'POST',
         headers: {
-        authorization: '44bd843a-83af-4683-8cc6-5f335d510854',
-        'Content-Type': 'application/json'
+            authorization: '44bd843a-83af-4683-8cc6-5f335d510854',
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-        name: `${card.name}`,
-        link: `${card.link}`
+            name: `${card.name}`,
+            link: `${card.link}`
         })
     })
 };
@@ -34,9 +34,20 @@ export const getCards = fetch('https://mesto.nomoreparties.co/v1/wff-cohort-2/ca
             };
             
             addCard(cardElement);
-            likeContour.textContent = card.likes.length;
+
+            likeContour.textContent = card.likes.length;        
+            deleteButton.addEventListener('click', () => deleteCardApi(card));
         });
     });
+
+export const deleteCardApi = (card) => {
+    fetch(`https://nomoreparties.co/v1/wff-cohort-2/cards/${card['_id']}`, {
+        method: 'DELETE',
+        headers: {
+            authorization: '44bd843a-83af-4683-8cc6-5f335d510854'
+        }
+    })
+};
 
 fetch('https://nomoreparties.co/v1/wff-cohort-2/users/me', {
   method: 'PATCH',
