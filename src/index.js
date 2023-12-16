@@ -110,4 +110,4 @@ newPlaceForm.addEventListener('submit', function(evt) {
 });
 
 enableValidation(); 
-getCards();
+getCards;

@@ -24,7 +24,17 @@ export const getCards = fetch('https://mesto.nomoreparties.co/v1/wff-cohort-2/ca
     .then((res) => {
         console.log(res);
         res.forEach((card) => {
-        addCard(createCard(card, deleteCard, likeCard, openImagePopup))
+            const cardElement = createCard(card, deleteCard, likeCard, openImagePopup);
+            
+            const likeContour = cardElement.querySelector('.card__like-contour');
+            const deleteButton = cardElement.querySelector('.card__delete-button');
+
+            if(card.owner['_id'] !== 'a5cd3f67283bc26d3ca91bb7') {
+                deleteButton.remove();
+            };
+            
+            addCard(cardElement);
+            likeContour.textContent = card.likes.length;
         });
     });
 
