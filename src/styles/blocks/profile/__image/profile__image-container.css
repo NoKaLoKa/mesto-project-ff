@@ -1,0 +1,18 @@
+.profile__image-container {
+    position: relative;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    cursor: pointer;
+    margin: 0 29px 0 0;
+}
+
+.profile__image-container:hover > .profile__image {
+opacity: 0.6;
+}
+
+.profile__image-container:hover > .profile__image-edit-icon {
+    opacity: 1;
+}

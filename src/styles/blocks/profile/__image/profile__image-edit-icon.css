@@ -1,0 +1,10 @@
+.profile__image-edit-icon {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: transparent url('../../../images/edit-icon.svg') center no-repeat;
+    transform: scale(2);
+    opacity: 0;
+}

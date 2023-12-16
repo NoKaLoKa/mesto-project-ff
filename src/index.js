@@ -3,7 +3,7 @@ import initialCards from './scripts/cards.js';
 import { createCard, deleteCard, likeCard } from './scripts/card.js';
 import { openModal, closeModal, closePopupByClick } from './scripts/modal.js';
 import { enableValidation, clearValidation } from './scripts/validation.js';
-import { postCard, getCards } from './scripts/api.js';
+import { postCard, getCards, avatarUpdate, patchUserData, getUserData } from './scripts/api.js';
 
 // Темплейт карточки
 export const cardTemplate = document.querySelector('#card-template');
@@ -61,10 +61,28 @@ profileAddButton.addEventListener('click', () => {
   });
 
   openModal(profileAddPopup)}
-  );
+);
 
 // Image popup
-const cardImagePopup = document.querySelector('.popup_type_image')
+const cardImagePopup = document.querySelector('.popup_type_image');
+
+// Avatar popup
+const profileAvatarPopup = document.querySelector('.popup_type_avatar');
+const profileAvatar = document.querySelector('.profile__image');
+const profileAvatarButton = document.querySelector('.profile__image-container');
+
+profileAvatarButton.addEventListener('click', () => {
+  clearValidation(avatarForm, {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: '.button__inactive',
+    inputErrorClass: '.popup__input_type_error',
+    errorClass: '.popup__input-error_active'
+  });
+
+  openModal(profileAvatarPopup)}
+);
 
 // Close popup
 document.addEventListener('click', closePopupByClick);
@@ -76,6 +94,8 @@ const profileJob = document.querySelector('.profile__description');
 const nameInput = editProfileForm.querySelector('.popup__input_type_name');
 const jobInput = editProfileForm.querySelector('.popup__input_type_description');
 
+getUserData(profileTitle, profileJob, profileAvatar);
+
 editProfileForm.addEventListener('submit', function(evt) {
   evt.preventDefault();
 
@@ -84,6 +104,7 @@ editProfileForm.addEventListener('submit', function(evt) {
 
   profileTitle.textContent = name;
   profileJob.textContent = job;
+  patchUserData(name, job);
   
   closeModal(profileEditPopup);
 });
@@ -109,5 +130,19 @@ newPlaceForm.addEventListener('submit', function(evt) {
   closeModal(profileAddPopup);
 });
 
-enableValidation(); 
+const avatarForm = document.forms['avatar'];
+const avatarLinkInput = avatarForm.querySelector('.popup__input_type_url');
+
+avatarForm.addEventListener('submit', function(evt) {
+  evt.preventDefault();
+
+  const link = avatarLinkInput.value;
+  document.querySelector('.profile__image').setAttribute('style', `background-image: url(${link})`);
+  avatarUpdate(link);
+
+  avatarForm.reset();
+  closeModal(profileAvatarPopup);
+});
+
+enableValidation();
 getCards;
