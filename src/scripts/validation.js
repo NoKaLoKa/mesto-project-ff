@@ -37,22 +37,23 @@ function toggleButtonState(inputList, buttonElement) {
     }
 };
 
-export function enableValidation() {
-    const formList = Array.from(document.querySelectorAll('.popup__form'));
+export function enableValidation(validationConfig) {
+    const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
+    
 
     formList.forEach((formElement) => {
         formElement.addEventListener('submit', function (evt) {
             evt.preventDefault();
         });
 
-        clearValidation(formElement, {
-            formSelector: '.popup__form',
-            inputSelector: '.popup__input',
-            submitButtonSelector: '.popup__button',
-            inactiveButtonClass: '.button__inactive',
-            inputErrorClass: '.popup__input_type_error',
-            errorClass: '.popup__input-error_active'
-          })
+        const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
+        const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
+        inputList.forEach((inputElement) => {
+            inputElement.addEventListener('input', function () {
+                checkInputValidity(formElement, inputElement);
+                toggleButtonState(inputList, buttonElement);
+            });
+        });
     });
 };
 
@@ -60,14 +61,7 @@ export function clearValidation(formElement, validationConfig) {
     const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
     const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
 
+    inputList.forEach((inputElement) => hideInputError(formElement, inputElement));
+
     toggleButtonState(inputList, buttonElement);
-
-    inputList.forEach((inputElement) => {
-        inputElement.addEventListener('input', function () {
-            checkInputValidity(formElement, inputElement);
-            toggleButtonState(inputList, buttonElement);
-        });
-
-        checkInputValidity(formElement, inputElement);
-    });
 }

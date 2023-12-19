@@ -21,22 +21,17 @@
       <main class="content">
         <section class="profile page__section">
           <div class="profile__image-container">
-            <div
-              class="profile__image"
-              style="
-                background-image: url(<%=require('./styles/images/avatar.jpg')%>);
-              "
-            ></div>
+            <div class="profile__image"></div>
             <div class="profile__image-edit-icon"></div>
           </div>
           <div class="profile__info">
-            <h1 class="profile__title">Жак-Ив Кусто</h1>
+            <h1 class="profile__title"></h1>
             <button
               class="profile__edit-button"
               type="button"
               aria-hidden="true"
             ></button>
-            <p class="profile__description">Исследователь океана</p>
+            <p class="profile__description"></p>
           </div>
           <button
             class="profile__add-button"
@@ -140,23 +135,29 @@
           <p class="popup__caption"></p>
         </div>
       </div>
-    </div>
-    <div class="popup popup_type_avatar popup_is-animated">
-      <div class="popup__content">
-        <button type="button" class="popup__close" aria-hidden="true"></button>
-        <h3 class="popup__title">Обновить аватар</h3>
-        <form class="popup__form" name="avatar">
-          <input
-            type="url"
-            name="link"
-            id="link"
-            class="popup__input popup__input_type_url"
-            placeholder="Ссылка на картинку"
-            required
-          />
-          <span class="form__input-error link-input-error"></span>
-          <button type="submit" class="button popup__button">Сохранить</button>
-        </form>
+      <div class="popup popup_type_avatar popup_is-animated">
+        <div class="popup__content">
+          <button
+            type="button"
+            class="popup__close"
+            aria-hidden="true"
+          ></button>
+          <h3 class="popup__title">Обновить аватар</h3>
+          <form class="popup__form" name="avatar">
+            <input
+              type="url"
+              name="link"
+              id="link"
+              class="popup__input popup__input_type_url"
+              placeholder="Ссылка на картинку"
+              required
+            />
+            <span class="form__input-error link-input-error"></span>
+            <button type="submit" class="button popup__button">
+              Сохранить
+            </button>
+          </form>
+        </div>
       </div>
     </div>
     <template id="card-template">
@@ -175,7 +176,7 @@
               class="card__like-button"
               aria-hidden="true"
             ></button>
-            <span class="card__like-сounter"></span>
+            <span class="card__like-сounter">0</span>
           </div>
         </div>
       </li>

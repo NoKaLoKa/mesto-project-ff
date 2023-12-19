@@ -1,108 +1,88 @@
-import { addCard, openImagePopup } from '../index.js';
-import { createCard, deleteCard, likeCard } from './card.js';
-
-export const getCards = fetch('https://mesto.nomoreparties.co/v1/wff-cohort-2/cards', {
+const config = {
+    baseUrl: 'https://mesto.nomoreparties.co/v1/wff-cohort-2',
     headers: {
-        authorization: '44bd843a-83af-4683-8cc6-5f335d510854'
+        authorization: '44bd843a-83af-4683-8cc6-5f335d510854',
+        'Content-Type': 'application/json'
     }
-})
-    .then(res => res.json())
-    .then((res) => {
-        res.forEach((card) => {
-            const cardElement = createCard(card, deleteCard, likeCard, openImagePopup);
-            const likeСounter = cardElement.querySelector('.card__like-сounter');
-            const deleteButton = cardElement.querySelector('.card__delete-button');
+}
 
-            if (card.owner['_id'] !== 'a5cd3f67283bc26d3ca91bb7') {
-                deleteButton.remove();
-            };
-
-            addCard(cardElement);
-
-            likeСounter.textContent = card.likes.length;
-        })
-
+export const getCards = () => {
+    return fetch(`${config.baseUrl}/cards`, {
+    headers: config.headers
+    })
+    .then(res => {
+        if (res.ok) {
+        return res.json();
+        }
     })
     .catch((err) => {
         console.log(err);
     });
+}
 
 export const postCard = (card) => {
-    fetch('https://mesto.nomoreparties.co/v1/wff-cohort-2/cards', {
+    return fetch(`${config.baseUrl}/cards`, {
         method: 'POST',
-        headers: {
-            authorization: '44bd843a-83af-4683-8cc6-5f335d510854',
-            'Content-Type': 'application/json'
-        },
+        headers: config.headers,
         body: JSON.stringify({
             name: `${card.name}`,
             link: `${card.link}`
         })
     })
-};
+}
 
-export const deleteCardApi = (card) => {
-    fetch(`https://mesto.nomoreparties.co/v1/wff-cohort-2/cards/${card['_id']}`, {
+export const deleteCardApi = (cardId) => {
+    return fetch(`${config.baseUrl}/cards/${cardId}`, {
         method: 'DELETE',
-        headers: {
-            authorization: '44bd843a-83af-4683-8cc6-5f335d510854'
-        }
+        headers: config.headers
     })
-};
+}
 
-export const putLike = (card) => {
-    fetch(`https://mesto.nomoreparties.co/v1/wff-cohort-2/cards/likes/${card['_id']}`, {
+export const putLike = (cardId) => {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'PUT',
-        headers: {
-            authorization: '44bd843a-83af-4683-8cc6-5f335d510854',
-            'Content-Type': 'application/json'
-        }
+        headers: config.headers
     });
-};
+}
 
-export const deleteLike = (card) => {
-    fetch(`https://mesto.nomoreparties.co/v1/wff-cohort-2/cards/likes/${card['_id']}`, {
+export const deleteLike = (cardId) => {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'DELETE',
-        headers: {
-            authorization: '44bd843a-83af-4683-8cc6-5f335d510854',
-            'Content-Type': 'application/json'
-        }
+        headers: config.headers
     });
-};
+}
 
-export const patchUserData = (name, about) => fetch('https://mesto.nomoreparties.co/v1/wff-cohort-2/users/me', {
-    method: 'PATCH',
-    headers: {
-        authorization: '44bd843a-83af-4683-8cc6-5f335d510854',
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        name: `${name}`,
-        about: `${about}`
-    })
-});
-
-export const getUserData = (profileTitle, profileJob, profileAvatar) => fetch('https://mesto.nomoreparties.co/v1/wff-cohort-2/users/me', {
-    headers: {
-        authorization: '44bd843a-83af-4683-8cc6-5f335d510854'
-    }
-})
-    .then(res => res.json())
-    .then((res) => {
-        profileTitle.textContent = res.name;
-        profileJob.textContent = res.about;
-        profileAvatar.setAttribute('style', `background-image: url(${res.avatar})`);
-    });
-
-export const avatarUpdate = (link) => {
-    fetch('https://mesto.nomoreparties.co/v1/wff-cohort-2/users/me/avatar', {
+export const patchUserData = (name, about) => {
+    return fetch(`${config.baseUrl}/users/me`, {
         method: 'PATCH',
-        headers: {
-            authorization: '44bd843a-83af-4683-8cc6-5f335d510854',
-            'Content-Type': 'application/json'
-        },
+        headers: config.headers,
         body: JSON.stringify({
-            avatar: `${link}`,
+            name: `${name}`,
+            about: `${about}`
         })
     });
-};
+}
+
+export const getUserData = () => {
+    return fetch(`${config.baseUrl}/users/me`, {
+        headers: config.headers
+    })
+    .then(res => {
+        if (res.ok) {
+        return res.json();
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+}
+
+export const avatarUpdate = (link) => {
+    return fetch(`${config.baseUrl}/users/me/avatar`, {
+        method: 'PATCH',
+        headers: config.headers,
+        body: JSON.stringify({
+            avatar: link,
+        })
+    });
+}
