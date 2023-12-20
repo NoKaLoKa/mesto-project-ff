@@ -105,6 +105,7 @@ editProfileForm.addEventListener('submit', function (evt) {
 const newPlaceForm = document.forms['new-place'];
 const cardNameInput = newPlaceForm.querySelector('.popup__input_type_card-name');
 const cardLinkInput = newPlaceForm.querySelector('.popup__input_type_url');
+let userId;
 
 newPlaceForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
@@ -119,8 +120,6 @@ newPlaceForm.addEventListener('submit', function (evt) {
 
   postCard(card)
     .then(card => {
-      let userId = card['_id'];
-
       cardsList.prepend(createCard(card, deleteCallback, likeCallback, openImagePopup, userId)) 
         newPlaceForm.reset(); 
         closeModal(profileAddPopup); 
@@ -153,7 +152,7 @@ enableValidation(validationConfig);
 
 Promise.all([getCards(), getUserData()])
   .then(([cards, userData]) => {
-    let userId = userData['_id'];
+    userId = userData['_id'];
 
     cards.forEach((card) => { 
       const createdCard = createCard(card, deleteCallback, likeCallback, openImagePopup, userId); 

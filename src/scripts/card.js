@@ -10,8 +10,7 @@ export function createCard(card, deleteCallback, likeCallback, openImagePopup, u
   const deleteButton = cardElement.querySelector('.card__delete-button');
   const likeButton = cardElement.querySelector('.card__like-button');
   const likeСounter = cardElement.querySelector('.card__like-сounter');
-
-  deleteButton.addEventListener('click', () => deleteCallback(card, deleteButton));
+  
   likeButton.addEventListener('click', () => likeCallback(card, likeButton, likeСounter));
   cardImage.addEventListener('click', () => openImagePopup(cardImage));
 
