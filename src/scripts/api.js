@@ -6,18 +6,18 @@ const config = {
     }
 }
 
+const handleResponse = (res) => {
+    if (res.ok) { 
+        return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+}
+
 export const getCards = () => {
     return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers
     })
-    .then(res => {
-        if (res.ok) {
-        return res.json();
-        }
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+    .then(handleResponse);
 }
 
 export const postCard = (card) => {
@@ -25,10 +25,11 @@ export const postCard = (card) => {
         method: 'POST',
         headers: config.headers,
         body: JSON.stringify({
-            name: `${card.name}`,
-            link: `${card.link}`
+            name: card.name,
+            link: card.link
         })
     })
+    .then(handleResponse);
 }
 
 export const deleteCardApi = (cardId) => {
@@ -36,20 +37,23 @@ export const deleteCardApi = (cardId) => {
         method: 'DELETE',
         headers: config.headers
     })
+    .then(handleResponse);
 }
 
 export const putLike = (cardId) => {
     return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'PUT',
         headers: config.headers
-    });
+    })
+    .then(handleResponse);
 }
 
 export const deleteLike = (cardId) => {
     return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'DELETE',
         headers: config.headers
-    });
+    })
+    .then(handleResponse);
 }
 
 export const patchUserData = (name, about) => {
@@ -57,24 +61,18 @@ export const patchUserData = (name, about) => {
         method: 'PATCH',
         headers: config.headers,
         body: JSON.stringify({
-            name: `${name}`,
-            about: `${about}`
+            name: name,
+            about: about
         })
-    });
+    })
+    .then(handleResponse);
 }
 
 export const getUserData = () => {
     return fetch(`${config.baseUrl}/users/me`, {
         headers: config.headers
     })
-    .then(res => {
-        if (res.ok) {
-        return res.json();
-        }
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+    .then(handleResponse);
 }
 
 export const avatarUpdate = (link) => {
@@ -84,5 +82,6 @@ export const avatarUpdate = (link) => {
         body: JSON.stringify({
             avatar: link,
         })
-    });
+    })
+    .then(handleResponse);
 }

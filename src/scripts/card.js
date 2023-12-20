@@ -2,7 +2,7 @@ import { cardTemplate } from '../index.js';
 import { deleteCardApi, putLike, deleteLike } from './api.js'
 
 // Функция создания карточки
-export function createCard(card, deleteCallback, likeCallback, openImagePopup) {
+export function createCard(card, deleteCallback, likeCallback, openImagePopup, userId) {
   const cardElement = cardTemplate.content.cloneNode(true);
 
   const cardImage = cardElement.querySelector('.card__image');
@@ -14,6 +14,18 @@ export function createCard(card, deleteCallback, likeCallback, openImagePopup) {
   deleteButton.addEventListener('click', () => deleteCallback(card, deleteButton));
   likeButton.addEventListener('click', () => likeCallback(card, likeButton, likeСounter));
   cardImage.addEventListener('click', () => openImagePopup(cardImage));
+
+  likeСounter.textContent = card.likes.length;
+
+  if(card.likes.some((like) => like['_id'] === userId)) { 
+    likeButton.classList.add('card__like-button_is-active'); 
+  };
+
+  if(userId === card.owner['_id']) {
+    deleteButton.addEventListener('click', () => deleteCallback(card, deleteButton)); 
+  } else {
+    deleteButton.remove()
+  };
 
   cardImage.src = card.link;
   cardImage.alt = card.name;
@@ -40,21 +52,11 @@ export function likeCard(likeButton) {
 }
 
 export function likeCallback(card, likeButton, likeСounter) {
-  if (!likeButton.classList.contains('card__like-button_is-active')) {
-    putLike(card['_id'])
-      .then(() => {
-        likeCard(likeButton);
-        const currentCount = parseInt(likeСounter.textContent, 10);
-        likeСounter.textContent = currentCount + 1;
-      })
-      .catch(err => console.log(err));
-  } else {
-    deleteLike(card['_id'])
-      .then(() => {
-        likeCard(likeButton);
-        const currentCount = parseInt(likeСounter.textContent, 10);
-        likeСounter.textContent = currentCount - 1;
-      })
-      .catch(err => console.log(err));
-  }
+  const likeMethod = likeButton.classList.contains('card__like-button_is-active') ? deleteLike : putLike;
+  likeMethod(card['_id'])
+    .then((card) => {
+      likeCard(likeButton);
+      likeСounter.textContent = card.likes.length;
+    }) 
+    .catch(err => console.log(err));
 }

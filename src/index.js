@@ -8,7 +8,7 @@ const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
-  inactiveButtonClass: '.button__inactive',
+  inactiveButtonClass: 'button__inactive',
   inputErrorClass: '.popup__input_type_error',
   errorClass: '.popup__input-error_active'
 };
@@ -93,13 +93,13 @@ editProfileForm.addEventListener('submit', function (evt) {
   editProfileForm.querySelector(validationConfig.submitButtonSelector).textContent = 'Сохранение...';
 
   patchUserData(name, job)
-    .then(() => {
-      profileTitle.textContent = name;
-      profileJob.textContent = job;
-      closeModal(profileEditPopup);
-      editProfileForm.querySelector(validationConfig.submitButtonSelector).textContent = 'Сохранить';
+    .then((userData) => {
+      profileTitle.textContent = userData.name; 
+      profileJob.textContent = userData.about; 
+      closeModal(profileEditPopup); 
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))
+    .finally(() => editProfileForm.querySelector(validationConfig.submitButtonSelector).textContent = 'Сохранить');
 });
 
 const newPlaceForm = document.forms['new-place'];
@@ -118,13 +118,15 @@ newPlaceForm.addEventListener('submit', function (evt) {
   newPlaceForm.querySelector(validationConfig.submitButtonSelector).textContent = 'Сохранение...';
 
   postCard(card)
-    .then(() => {
-      cardsList.prepend(createCard(card, deleteCallback, likeCallback, openImagePopup))
-      newPlaceForm.reset();
-      closeModal(profileAddPopup);
-      newPlaceForm.querySelector(validationConfig.submitButtonSelector).textContent = 'Сохранить';
+    .then(card => {
+      let userId = card['_id'];
+
+      cardsList.prepend(createCard(card, deleteCallback, likeCallback, openImagePopup, userId)) 
+        newPlaceForm.reset(); 
+        closeModal(profileAddPopup); 
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))
+    .finally(() => newPlaceForm.querySelector(validationConfig.submitButtonSelector).textContent = 'Сохранить');
 });
 
 const avatarForm = document.forms['avatar'];
@@ -134,38 +136,28 @@ avatarForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
 
   const link = avatarLinkInput.value;
-  document.querySelector('.profile__image').setAttribute('style', `background-image: url(${link})`);
-
+  
   avatarForm.querySelector(validationConfig.submitButtonSelector).textContent = 'Сохранение...';
 
   avatarUpdate(link)
     .then(() => {
+      document.querySelector('.profile__image').setAttribute('style', `background-image: url(${link})`);
       avatarForm.reset();
       closeModal(profileAvatarPopup);
-      avatarForm.querySelector(validationConfig.submitButtonSelector).textContent = 'Сохранить';
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))
+    .finally(() => avatarForm.querySelector(validationConfig.submitButtonSelector).textContent = 'Сохранить');
 });
 
 enableValidation(validationConfig);
 
 Promise.all([getCards(), getUserData()])
   .then(([cards, userData]) => {
-    cards.forEach((card) => {
-      const createdCard = createCard(card, deleteCallback, likeCallback, openImagePopup);
-      const likeСounter = createdCard.querySelector('.card__like-сounter');
-      
-      if(userData['_id'] !== card.owner['_id']) {
-        createdCard.querySelector('.card__delete-button').remove();
-      }
-  
-      if(card.likes.some((like) => like['_id'] === userData['_id'])) {
-        createdCard.querySelector('.card__like-button').classList.add('card__like-button_is-active');
-      }
+    let userId = userData['_id'];
 
-      likeСounter.textContent = card.likes.length;
-
-      addCard(createdCard);
+    cards.forEach((card) => { 
+      const createdCard = createCard(card, deleteCallback, likeCallback, openImagePopup, userId); 
+      addCard(createdCard); 
     });
 
     profileTitle.textContent = userData.name;
